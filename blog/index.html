@@ -1,18 +1,376 @@
----
-layout: default
-title: Posts
-# Note that this index page uses a full-width layout!
-weight: 2
----
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <h1 class="content-listing-header sans">Posts</h1>
+  <title>Posts</title>
+  <meta name="description" content="A blog about the things I learn, and the thoughts I have, as I learn my first system-level language.">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/latex.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/css/print.css" media="print"> -->
+
+  <link rel="canonical" href="/blog/">
+
+  <link rel="alternate" type="application/rss+xml" title="Grokking Golang" href="/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+	
+		<h1 class="header-title"><a href="/">Grokking Golang</a></h1>
+		
+			<h2 class="header-subtitle">Or, Travels in Go-Land</h2>
+		
+	
+
+    <nav class="group">
+	
+	
+		
+		    
+		      <a href="/404"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">About</a>
+		    
+	    
+  	
+		
+		    
+		      <a class="active" href="/blog/" class="active">Posts</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/page/">Tufte CSS</a>
+		    
+	    
+  	
+	</nav>
+</header>
+    <article class="group">
+        <h1 class="content-listing-header sans">Posts</h1>
   <ul class="content-listing ">
-    {% for post in site.posts %}      
+          
         <li class="listing">
           <hr class="slender">
-          <a href="{{ post.url | prepend: site.baseurl }}"><h2 class="larger">{{ post.title }}</h2></a>
-          <br><span class="smaller">{{ post.date | date: "%B %-d, %Y" }}</span>  <br/>
-          <div>{{ post.excerpt }}</div> 
+          <a href="/posts/2019/01/08/some-maps-pun-here.html"><h2 class="larger">[Some Maps and Gold Pun Here]</h2></a>
+          <br><span class="smaller">January 8, 2019</span>  <br/>
+          <div><p><span class="newthought">It’s Maps now</span> and there are a few notable nuggets here too.</p>
+
+<p>NUGGET:</p>
+
+<blockquote>
+  <p>A map lookup using a key that isn’t present returns a zero value for its type <cite>The Go Programming Language (2016) Donovan and Ritchie, pp. 94</cite></p>
+</blockquote>
+
+<p>Nice, but how do we tell if a map element is really there or not?  Accessing elements actually returns a tuple, the first element of which is the element value (or zero value) and the second is a Boolean.  The Boolean is <code class="highlighter-rouge">true</code> if the provided key matched, and <code class="highlighter-rouge">false</code> if you’ve just got the default, empty value.  That seems pretty cool and something I can imagine will be useful.</p>
+
+<p>NUGGET:</p>
+
+<blockquote>
+  <p>A map element is not a variable, and we cannot take it’s address. <cite>The Go Programming Language (2016) Donovan and Ritchie, pp. 94</cite></p>
+</blockquote>
+
+<p>The reason for this is the map might need to rehash, and move things around for its own purposes.  If you have a memory reference to an element, this will most likely then point to nothing / the wrong thing after the rehashing.  To avoid this, you’re not allowed to use the <code class="highlighter-rouge">&amp;</code> operation to get the pointers to the elements.</p>
+
+<p>This one is more of a :thinkingface: for me. I’m still trying (struggling?) to see the benefits of pointers. They seem like a break in encapsulation. But then I know from Scala / functional circles that not everyone things of encapsulation as the Holy Grail of programming.  Pushing myself out of my comfort zone is why I’m on this journey so I’m going to store it in the memory banks and move on.</p>
+
+<p>NUGGET:</p>
+
+<p>As with Slices, Maps cannot be compared with each other.  Yet again, the only legal comparison is with <code class="highlighter-rouge">nil</code>.</p>
+
+<p>It seems again that this is what I consider a core library leaving me with a bunch of work to do, caused by design decisions elsewhere in the language.  It feels like a loss to not have this, but then I’ve not really come across the potential benefits which might be significant.  At this point however it feels as if my cognitive load when working with Maps is going to be higher than I’m used to.  And it’s not just Maps;</p>
+
+<p>NUGGET:</p>
+
+<blockquote>
+  <p>Go does not provide a set type, but since the keys of a map are distinct, a map can serve this purpose. <cite>The Go Programming Language (2016) Donovan and Ritchie, pp. 96</cite></p>
+</blockquote>
+
+<p>This seems really wierd to me.  At this stage the standard collections support feels very strange.  We don’t have a Stack implementation either as I learned earlier in my reading.  It really is a strange new world this Goland [sic].</p>
+</div> 
         </li>
-    {% endfor %}
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2019/01/08/encountering-slices.html"><h2 class="larger">Encountering Slices</h2></a>
+          <br><span class="smaller">January 8, 2019</span>  <br/>
+          <div><p><span class="newthought"></span></p>
+
+<p>Slices currently feel like the solution to a problem I’ve not yet felt the pain of.  That’s not to say the problem isn’t there; I’m just not aware of it yet.  Is this because in systems programming the data you’re close to and manipulate more is of a different kind?  Or of a different structure? Or more unpredictable? Or more raw? Or is performance more a concern from the outset? I guess I’ll have to wait and see.</p>
+
+<p>For my learning purposes, what follows is a series of facts and musings about them, strung together in some kind of train-of-thought type structure;</p>
+
+<p>Literals are initialised without a size (unlike array literals).</p>
+
+<p>They can extend (within the cap).</p>
+
+<p>They’re not comparable out of the box (so we can’t use <code class="highlighter-rouge">==</code>).  While the standard golang libraries provide a function to compare byte slices thats the only one; the rest you need to build yourself.<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Is this because the rest aren’t that frequently needed? I’ll have to wait and find out.</span></p>
+
+<p>Digging into why you can’t directly compare them is instructive. Firstly;</p>
+<blockquote>
+  <p>Unlike array elements, the elements of a slice are indirect, making it possible for a slice to contain pointers to contain itself. <cite>The Go Programming Language (2016), Donovan and Ritchie, pp. 87</cite></p>
+</blockquote>
+
+<p>And secondly;</p>
+<blockquote>
+  <p>because slice elements are indirect, a fixed slice may contain different elements at different times as the content of the underlying array are modified. <cite>The Go Programming Language (2016), Donovan and Ritchie, pp. 87</cite></p>
+</blockquote>
+
+<p>Let’s be explicit about what “indirect” is.  Slices are like windows onto a subset of an underlying data type - an Array.  Without Arrays they don’t exist. They don’t have any storage themselves - they just contain a pointers to an Array - and then add on characteristics such as <code class="highlighter-rouge">len</code> and <code class="highlighter-rouge">cap</code>.</p>
+
+<p>It may be instructive at this point to bring in some ways of categorising things.</p>
+
+<p><em>Composite types</em> are types created by combining the basic types (Integers, String etc.) in various ways.</p>
+
+<p>Arrays (and Structs) are a subset of Composite Type, called <em>Aggregate Types</em> . They are concatenations of other values in memory.</p>
+
+<p>Slices, while they are Composite Types are not Aggregate Types, and must have zero or one underlying Array type behind them. If a Slice has no underlying Array type then checking against <code class="highlighter-rouge">nil</code> with the comparison operator <code class="highlighter-rouge">==</code> (the only usage of this operator valid for Slices) will return <code class="highlighter-rouge">true</code>.  This is the zero-value of Slices.</p>
+
+<p>A slice can still be empty if it has an underlying array, but the <code class="highlighter-rouge">len</code> will then be zero.</p>
+
+<blockquote>
+  <p>To use slices directly its important to bear in mind that although the elements of the underlying array are indirect , the slices pointer, <code class="highlighter-rouge">len</code> and <code class="highlighter-rouge">cap</code> are not. <cite>The Go Programming Language (2016), Donovan and Ritchie, pp. 91</cite></p>
+</blockquote>
+
+<p>Which leads me to a question which I intend to explore in a later post; do slices need to point to contiguous elements of their undelying array? <label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">I assume so, but it’s always best never to assume I’ve found.</span></p>
+
+<h3 id="addendum">Addendum</h3>
+<p>Slices can be used to implement stacks. But why not just have a Stack data type?  It seems strange coming from the Java language with such a rich set of collections types, to arrive in goland [sic] where I find myself with just a pen knife and a compass.  It’s different, but thats why I’m here; to find out why.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2019/01/04/whats-the-difference.html"><h2 class="larger">`x`, `&x` and `*x`; what's the difference?</h2></a>
+          <br><span class="smaller">January 4, 2019</span>  <br/>
+          <div><p><span class="newthought">This was a longer post;</span>  But I lost it.  This is a summary to flush what remains from my mental buffers.</p>
+
+<p>Pointers and pointer arithmatic is new to me<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Although I’m more than conversant with references, the poorer cousin from Javaland</span> so grokking them as and when they come up is important.</p>
+
+<p>There’s a lot in the two appearances of the concept in Donovan and Ritchie’s The Go Programming Language (2016)<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">On page 24, and again on pages 32-34</span>.  I wanted to go slightly slower than they did, and make a few points super-clear.</p>
+
+<p>They show us what’s happening with this code (page 32):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ p := &amp;x         // p(ointer) of type *int (pointer to an int). Points to x
+ fmt.Println(*p) // prints "1"
+</code></pre></div></div>
+
+<p>When I first read this I thought (incorrectly) that <code class="highlighter-rouge">&amp;x</code> and <code class="highlighter-rouge">*x</code> were variables.  Wrong.  The <code class="highlighter-rouge">x</code> here is the variable.  The <code class="highlighter-rouge">&amp;</code> is an operator, which obtains the pointer value - the memory address.  We can start with our printing again and prove it:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ fmt.Println(x)  // prints "1"
+ fmt.Println(&amp;x) // prints "0xc0000180a0" 
+</code></pre></div></div>
+
+<p>The other misconception I had was that <code class="highlighter-rouge">*x</code> acted on <code class="highlighter-rouge">x</code>.  It doesn’t.  If you try that you get a compilation error (which makes a lot more sense when you realise the <code class="highlighter-rouge">*</code> is also an operator).  You need to call it on a pointer type (e.g. of type <code class="highlighter-rouge">*int</code>) and it will give you back the variable that this points to.  Let’s do some more printing, starting at the beginning yet again, and prove it:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ fmt.Println(x)  // prints "1"
+ fmt.Println(&amp;x) // prints "0xc0000180a0"
+ fmt.Println(*x) // prints "1"
+ p := &amp;x         // p(ointer) of type *int (pointer to an int). Points to x
+ fmt.Println(p)  // prints "0xc0000180a0"
+ fmt.Println(*p) // prints "1"
+</code></pre></div></div>
+
+<p>So to summarise, pointers are a single new thing, which you can work with using two operators; the first, <code class="highlighter-rouge">&amp;</code>, gets the pointer of type <code class="highlighter-rouge">*type</code> from the variable.  The second, <code class="highlighter-rouge">*</code> gets the variable from the pointer.</p>
+
+<p>As a conclusion, there is one thing which doesn’t sit entirely well with me and that’s the fact that <code class="highlighter-rouge">&amp;</code> gets you something of type <code class="highlighter-rouge">*type</code> rather than <code class="highlighter-rouge">&amp;type</code>. It’s a small thing, but may have been at the root of my mis-grokking of all this.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2019/01/03/goroutines-i-presume.html"><h2 class="larger">Goroutines, I presume</h2></a>
+          <br><span class="smaller">January 3, 2019</span>  <br/>
+          <div><p><span class="newthought">It’s in Chapter 1</span> of Donovan and Ritchie’s “The Go Programming Language” (2016) that we first encounter the famous goroutine.</p>
+
+<p>We learn that everything we’ve done leading up to this point has been running within a goroutine - the default, <code class="highlighter-rouge">main</code> one.  Suddenly we see we can create more using the <code class="highlighter-rouge">go</code> keyword. That’s cool, but on their own, goroutines can never be super-useful.  When we connect them together however; then all kinds of madness could ensue.</p>
+
+<p>We do this connecting via channels which we create using the keyword <code class="highlighter-rouge">make</code>.<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Not to be confused with the UNIX <code class="highlighter-rouge">make</code> command.</span>  Channels allow us to pass values (NOTE: not references) of a specified type to other goroutines.</p>
+
+<p>To me, the syntax seemed a little hairy at first sight, and that’s what I’m going to pick at a tiny bit in this post.</p>
+
+<p>We’re told that:</p>
+
+<blockquote>
+  <p>when one goroutine attempts to send or receive on a channel, it blocks until another goroutine attempts the corresponding receive or send operation, at which point the value is transferred and both goroutines proceed.
+<cite>Donovan and Ritchie, The Go Programming Language, (2016) pp.18</cite></p>
+</blockquote>
+
+<p>In order to achive this we have to “<code class="highlighter-rouge">make</code>” our channel</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ch := make(chan string)
+</code></pre></div></div>
+
+<p>We also have to create new goroutines</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go fetch(url, ch) // start a goroutine
+</code></pre></div></div>
+
+<p>And from each of these new goroutines send a value on channel <code class="highlighter-rouge">ch</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ch &lt;- fmt.Sprint(err) // send to channel ch
+</code></pre></div></div>
+
+<p>Which are received (and printed) by channel <code class="highlighter-rouge">main</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fmt.Println(&lt;-ch) // receive from channel ch
+</code></pre></div></div>
+
+<p>So why do I say “hairy”?  I’ll admit, I used to hate symbols like “<code class="highlighter-rouge">&lt;-</code>” and “<code class="highlighter-rouge">&lt;=</code>“<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Back in <a href="https://scalaeyeforthejavaguy.blogspot.com/2013/11/many-legibility-wins-and-few-losses.html">my Scala days</a>.</span> but I got over that.  What seems a little arbitrary here<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">perhaps I’m just being hyper-sensitive knowing that <code class="highlighter-rouge">gofmt</code> is watching my every move.</span>” is the space <em>before</em> the arrow in constructs like <code class="highlighter-rouge">ch &lt;-</code> but the lack of one <em>after</em> it, for example, in <code class="highlighter-rouge">&lt;-ch</code>. It feels to me like they should both be either one thing or the other format-wise.</p>
+
+<p>However, I’ve been on the programming block long enough to know that differences like this are rarely accidental. Rather, they typically point to something far more fundamental which I’m just not aware of yet.  I’m going to keep my eye on things as I read on, and follow up this post if / when I discover anything pertinent.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2018/12/31/hello-world.html"><h2 class="larger">Hello 世界</h2></a>
+          <br><span class="smaller">December 31, 2018</span>  <br/>
+          <div><p><span class="newthought">I’m starting my Golang journey</span> with Donovan and Kernighan’s “<a href="https://www.gopl.io/">The Go Programming Language</a>” (2016).  Why? Becuase it’s a text which not only starts at the point where I currently find myself skills-wise (long-term dev experience with Java and heavy sojourns into other languages but nothing to speak of in the systems-programming space) but it also reminds me of the first ever programming book I bought; “<a href="https://www.cprogramming.com/books/ritchie.html">The C Programming Language</a>” by Kernighan and Ritchie.  <label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">It made little sense to me at the time, and the C code I wrote was <em>terrible</em>, but the nostalgia is still strong, and Kernighan (and Donovan) can write on languages very clearly.</span></p>
+
+<p>Donovan and Kernighan start their journey into Golang with the standard “Hello …” construct, and immediately there is a lot to take note of.</p>
+
+<h2 id="the-golang-toolchain">The Golang Toolchain</h2>
+<p>Golang is compiled, which you achieve by a combination of the <code class="highlighter-rouge">go</code> command and certain sub-commands.  There are many of them, but here we see <code class="highlighter-rouge">run</code> and <code class="highlighter-rouge">build</code> (which builds a platform-specific executable that can be run without the <code class="highlighter-rouge">go</code> environment being installed.)</p>
+
+<h2 id="unicode">Unicode</h2>
+<p>You can see from the title of this post that we’re bidding hello in Japanese.  Support for Unicode is native in Golang.  Nothing new having come from the Java world, but nice to know.</p>
+
+<h2 id="packages-and-standard-libraries">Packages and Standard Libraries</h2>
+<p>Everygthing is packaged.  Our code is packaged, and so are the Standard Libraries which are <code class="highlighter-rouge">import</code>ed.  So far so unexpected.</p>
+
+<p>However there is a concept that is new to me; there is a special package called <code class="highlighter-rouge">Main</code> which contains entry points to your Golang programs. When complied, <code class="highlighter-rouge">Main</code> packages create standalone, executable programs.</p>
+
+<h2 id="clean-syntax">Clean Syntax</h2>
+<p>No semicolons required!</p>
+
+<h2 id="clean-style">Clean Style</h2>
+<p>It is Golang style to run <code class="highlighter-rouge">gofmt</code> and <code class="highlighter-rouge">goimports</code> on your code.  That ensures all Golang code looks the same, and that there are no rogue (i.e. unused) imports.</p>
+
+<h2 id="go-managed-easy-to-use-toolchain">Go-Managed, Easy-to-Use Toolchain</h2>
+<p>We don’t have the <code class="highlighter-rouge">goimport</code> tool for the toolchain in the default install, so we just <code class="highlighter-rouge">go get</code> it and it’s available to use.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2018/12/29/things-of-note-pt1.html"><h2 class="larger">Things of Note - Part 1</h2></a>
+          <br><span class="smaller">December 29, 2018</span>  <br/>
+          <div><h2 id="high-level">High-Level</h2>
+<p>As a newer language, Golang benefits from many language developments which went before it.  I pull out some of these which are of particular note in separate sections below, but the “just plain handy” list includes: a package system, first-class functions, lexical scope, a system-call interface, and immutable strings (from The Go Programming Language, pp xiv by Donovan, A. and Kernighan, B.).  It also includes in the platform linting, dependency management, testing, packaging and more.</p>
+
+<h2 id="presumes-monorepo-style-scm">Presumes monorepo-style SCM</h2>
+<h2 id="optimised-for-large-teams">Optimised for large teams</h2>
+
+<h2 id="managed-runtime">Managed runtime</h2>
+<p>Golang takes note of the development in managed runtimes which found popularity with the development of languages such as Java and C# (and their many JRE- and CLR- platform cousins).  Golang also has a managed runtime.  That means you get garbage collection which is a major boon.  The downside is that it’s not suitable for real-time projects (although I remember real-time Java so I’m not sure these kind of things are impossible; rather they are likely to require a different style of coding.)</p>
+
+<h2 id="cross-platform">Cross-platform</h2>
+<p>The Golang platform is available on many platforms (Unix, MacOs, and Windows) and chip architectures (including ARM). This goes a long way towards ensuring that your code is very likely to be compilable on multiple platforms unchanged.</p>
+
+<h2 id="time-to-compile">Time-to-Compile</h2>
+<p>Golang is a compiled language.  But not only that, the designers have focussed on keeping compile-time as low as possible.  If you’re coming from a Scala background, that’s reassuring.</p>
+
+<h2 id="bundling-dependencies">Bundling dependencies</h2>
+
+<h2 id="network-centric">Network-Centric</h2>
+<p>Golang “takes note of the importance of locality” (from The Go Programming Language, pp xiv by Donovan, A. and Kernighan, B.) but also has first-class concepts for remote communication.</p>
+
+<h2 id="not-object-oriented">NOT Object-Oriented</h2>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2018/12/29/pros-and-cons-imho-pt1.html"><h2 class="larger">Pros and Cons (IMHO) - Part 1</h2></a>
+          <br><span class="smaller">December 29, 2018</span>  <br/>
+          <div><h2 id="pros">Pros</h2>
+<p>There is only one right way to do things, enforced by <code class="highlighter-rouge">gofmt</code>.</p>
+
+<p>It is very much a toolchain and a platform as well as a language.</p>
+
+<h2 id="cons">Cons</h2>
+<p>IDE support is really nascent - time to learn EMACS (finally).</p>
+
+<p>Installation feels really complicated (coming from a Java background) and <a href="https://boyter.org/posts/how-to-start-go-project-2018/">Ben Boyter agrees with me.</a></p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/posts/2018/12/28/setting-up.html"><h2 class="larger">Setting Up</h2></a>
+          <br><span class="smaller">December 28, 2018</span>  <br/>
+          <div><h2 id="hardware-os-and-shell">Hardware, OS and Shell</h2>
+
+<p>I’m using a MacBook Pro which is running MacOS Mojave (10.14.2).  My shell of choice is Z, made all glorious by <a href="https://ohmyz.sh/">oh-my-zsh</a>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>I downloaded the latest binary release (<code class="highlighter-rouge">go1.11.4</code>) from the <a href="https://golang.org/dl/">Golang site</a> and installed it at the default location (<code class="highlighter-rouge">/usr/local/go</code>).</p>
+
+<p>I tested my install by following the <a href="https://golang.org/doc/install#testing">documentation at golang.org</a>.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Based on a recommendation from a friend I started to follow the steps laid out in <a href="https://boyter.org/posts/how-to-start-go-project-2018/">“How to Start a Go Project in 2018”</a>.</p>
+
+<p>This entailed;</p>
+
+<p>Explicitly setting the <code class="highlighter-rouge">GOPATH</code> environment variable explicitly (I added <code class="highlighter-rouge">export $GOPATH="/Users/[my username]/go"</code> to the bottom of my <code class="highlighter-rouge">~/.zshrc</code> file),</p>
+
+<p>Adding the <code class="highlighter-rouge">$GOPATH/bin</code> directory to my <code class="highlighter-rouge">$PATH</code> (I added <code class="highlighter-rouge">export PATH="$PATH:$(go env GOPATH)/bin"</code> to the bottom of my <code class="highlighter-rouge">~/.zshrc</code> file).</p>
+
+<p>It seems that the defaults of this setup has changed over the course of Golang’s evolution because an old book I have from 2012; “The Way to Go” by Ivo Balbert; mentions a bunch of other variables which are still in the go environment but seem to have less precedence.  Ivo also wants me to have my Golang programs in a different location, and finally, he kicks everything off by cloning the language source and building it.  Luckily this isn’t mandatory.</p>
+
+<h2 id="ide">IDE</h2>
+<p>At the time of writing, it seems as if Visual Studio code has the best free <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.Go">support for Golang</a>.  I’ve installed that and will be trying to use it as my primary dev environment.</p>
+
+<p>However, I’m typically a JetBrains user, so I might end up installing their <a href="https://plugins.jetbrains.com/plugin/9568-go">Go plugin</a> too if things-Msft prove to be a brain melt.</p>
+</div> 
+        </li>
+    
   </ul>
+
+    </article>
+    <span class="print-footer">Posts - Andrew Harmel-Law</span>
+    <footer>
+  <hr class="slender">
+<div class="credits">
+<span>&copy; 2019 
+  
+		<a href="mailto:andrew [at] harmel-law [dot] com">Andrew Harmel-Law</a></span></br> <br>    
+    
+
+<span>Created with <a href="//jekyllrb.com">Jekyll</a> and the theme <a href="//github.com/sdruskat/tufte-css-jekyll">tufte-css-jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

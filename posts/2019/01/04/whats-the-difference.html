@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>`x`, `&x` and `*x`; what's the difference?</title>
+  <meta name="description" content="This was a longer post;  But I lost it.  This is a summary to flush what remains from my mental buffers.Pointers and pointer arithmatic is new to meAlthough ...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/latex.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/css/print.css" media="print"> -->
+
+  <link rel="canonical" href="/posts/2019/01/04/whats-the-difference.html">
+
+  <link rel="alternate" type="application/rss+xml" title="Grokking Golang" href="/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+	
+		<h1 class="header-title"><a href="/">Grokking Golang</a></h1>
+		
+			<h2 class="header-subtitle">Or, Travels in Go-Land</h2>
+		
+	
+
+    <nav class="group">
+	
+	
+		
+		    
+		      <a href="/404"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">About</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/blog/">Posts</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/page/">Tufte CSS</a>
+		    
+	    
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>`x`, `&x` and `*x`; what's the difference?</h1>
+<p class="subtitle">January 4, 2019</p>
+
+<p><span class="newthought">This was a longer post;</span>  But I lost it.  This is a summary to flush what remains from my mental buffers.</p>
+
+<p>Pointers and pointer arithmatic is new to me<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Although I’m more than conversant with references, the poorer cousin from Javaland</span> so grokking them as and when they come up is important.</p>
+
+<p>There’s a lot in the two appearances of the concept in Donovan and Ritchie’s The Go Programming Language (2016)<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">On page 24, and again on pages 32-34</span>.  I wanted to go slightly slower than they did, and make a few points super-clear.</p>
+
+<p>They show us what’s happening with this code (page 32):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ p := &amp;x         // p(ointer) of type *int (pointer to an int). Points to x
+ fmt.Println(*p) // prints "1"
+</code></pre></div></div>
+
+<p>When I first read this I thought (incorrectly) that <code class="highlighter-rouge">&amp;x</code> and <code class="highlighter-rouge">*x</code> were variables.  Wrong.  The <code class="highlighter-rouge">x</code> here is the variable.  The <code class="highlighter-rouge">&amp;</code> is an operator, which obtains the pointer value - the memory address.  We can start with our printing again and prove it:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ fmt.Println(x)  // prints "1"
+ fmt.Println(&amp;x) // prints "0xc0000180a0" 
+</code></pre></div></div>
+
+<p>The other misconception I had was that <code class="highlighter-rouge">*x</code> acted on <code class="highlighter-rouge">x</code>.  It doesn’t.  If you try that you get a compilation error (which makes a lot more sense when you realise the <code class="highlighter-rouge">*</code> is also an operator).  You need to call it on a pointer type (e.g. of type <code class="highlighter-rouge">*int</code>) and it will give you back the variable that this points to.  Let’s do some more printing, starting at the beginning yet again, and prove it:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := 1
+ fmt.Println(x)  // prints "1"
+ fmt.Println(&amp;x) // prints "0xc0000180a0"
+ fmt.Println(*x) // prints "1"
+ p := &amp;x         // p(ointer) of type *int (pointer to an int). Points to x
+ fmt.Println(p)  // prints "0xc0000180a0"
+ fmt.Println(*p) // prints "1"
+</code></pre></div></div>
+
+<p>So to summarise, pointers are a single new thing, which you can work with using two operators; the first, <code class="highlighter-rouge">&amp;</code>, gets the pointer of type <code class="highlighter-rouge">*type</code> from the variable.  The second, <code class="highlighter-rouge">*</code> gets the variable from the pointer.</p>
+
+<p>As a conclusion, there is one thing which doesn’t sit entirely well with me and that’s the fact that <code class="highlighter-rouge">&amp;</code> gets you something of type <code class="highlighter-rouge">*type</code> rather than <code class="highlighter-rouge">&amp;type</code>. It’s a small thing, but may have been at the root of my mis-grokking of all this.</p>
+
+
+
+    </article>
+    <span class="print-footer">`x`, `&x` and `*x`; what's the difference? - January 4, 2019 - Andrew Harmel-Law</span>
+    <footer>
+  <hr class="slender">
+<div class="credits">
+<span>&copy; 2019 
+  
+		<a href="mailto:andrew [at] harmel-law [dot] com">Andrew Harmel-Law</a></span></br> <br>    
+    
+
+<span>Created with <a href="//jekyllrb.com">Jekyll</a> and the theme <a href="//github.com/sdruskat/tufte-css-jekyll">tufte-css-jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

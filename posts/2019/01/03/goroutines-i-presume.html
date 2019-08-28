@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Goroutines, I presume</title>
+  <meta name="description" content="It’s in Chapter 1 of Donovan and Ritchie’s “The Go Programming Language” (2016) that we first encounter the famous goroutine.We learn that everything we’ve d...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/latex.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/css/print.css" media="print"> -->
+
+  <link rel="canonical" href="/posts/2019/01/03/goroutines-i-presume.html">
+
+  <link rel="alternate" type="application/rss+xml" title="Grokking Golang" href="/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+	
+		<h1 class="header-title"><a href="/">Grokking Golang</a></h1>
+		
+			<h2 class="header-subtitle">Or, Travels in Go-Land</h2>
+		
+	
+
+    <nav class="group">
+	
+	
+		
+		    
+		      <a href="/404"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">About</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/blog/">Posts</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/page/">Tufte CSS</a>
+		    
+	    
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Goroutines, I presume</h1>
+<p class="subtitle">January 3, 2019</p>
+
+<p><span class="newthought">It’s in Chapter 1</span> of Donovan and Ritchie’s “The Go Programming Language” (2016) that we first encounter the famous goroutine.</p>
+
+<p>We learn that everything we’ve done leading up to this point has been running within a goroutine - the default, <code class="highlighter-rouge">main</code> one.  Suddenly we see we can create more using the <code class="highlighter-rouge">go</code> keyword. That’s cool, but on their own, goroutines can never be super-useful.  When we connect them together however; then all kinds of madness could ensue.</p>
+
+<p>We do this connecting via channels which we create using the keyword <code class="highlighter-rouge">make</code>.<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Not to be confused with the UNIX <code class="highlighter-rouge">make</code> command.</span>  Channels allow us to pass values (NOTE: not references) of a specified type to other goroutines.</p>
+
+<p>To me, the syntax seemed a little hairy at first sight, and that’s what I’m going to pick at a tiny bit in this post.</p>
+
+<p>We’re told that:</p>
+
+<blockquote>
+  <p>when one goroutine attempts to send or receive on a channel, it blocks until another goroutine attempts the corresponding receive or send operation, at which point the value is transferred and both goroutines proceed.
+<cite>Donovan and Ritchie, The Go Programming Language, (2016) pp.18</cite></p>
+</blockquote>
+
+<p>In order to achive this we have to “<code class="highlighter-rouge">make</code>” our channel</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ch := make(chan string)
+</code></pre></div></div>
+
+<p>We also have to create new goroutines</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go fetch(url, ch) // start a goroutine
+</code></pre></div></div>
+
+<p>And from each of these new goroutines send a value on channel <code class="highlighter-rouge">ch</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ch &lt;- fmt.Sprint(err) // send to channel ch
+</code></pre></div></div>
+
+<p>Which are received (and printed) by channel <code class="highlighter-rouge">main</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fmt.Println(&lt;-ch) // receive from channel ch
+</code></pre></div></div>
+
+<p>So why do I say “hairy”?  I’ll admit, I used to hate symbols like “<code class="highlighter-rouge">&lt;-</code>” and “<code class="highlighter-rouge">&lt;=</code>“<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">Back in <a href="https://scalaeyeforthejavaguy.blogspot.com/2013/11/many-legibility-wins-and-few-losses.html">my Scala days</a>.</span> but I got over that.  What seems a little arbitrary here<label for="sn-id-whatever" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-id-whatever" class="margin-toggle" /><span class="sidenote">perhaps I’m just being hyper-sensitive knowing that <code class="highlighter-rouge">gofmt</code> is watching my every move.</span>” is the space <em>before</em> the arrow in constructs like <code class="highlighter-rouge">ch &lt;-</code> but the lack of one <em>after</em> it, for example, in <code class="highlighter-rouge">&lt;-ch</code>. It feels to me like they should both be either one thing or the other format-wise.</p>
+
+<p>However, I’ve been on the programming block long enough to know that differences like this are rarely accidental. Rather, they typically point to something far more fundamental which I’m just not aware of yet.  I’m going to keep my eye on things as I read on, and follow up this post if / when I discover anything pertinent.</p>
+
+
+
+    </article>
+    <span class="print-footer">Goroutines, I presume - January 3, 2019 - Andrew Harmel-Law</span>
+    <footer>
+  <hr class="slender">
+<div class="credits">
+<span>&copy; 2019 
+  
+		<a href="mailto:andrew [at] harmel-law [dot] com">Andrew Harmel-Law</a></span></br> <br>    
+    
+
+<span>Created with <a href="//jekyllrb.com">Jekyll</a> and the theme <a href="//github.com/sdruskat/tufte-css-jekyll">tufte-css-jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

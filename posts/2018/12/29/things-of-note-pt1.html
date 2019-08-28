@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Things of Note - Part 1</title>
+  <meta name="description" content="High-LevelAs a newer language, Golang benefits from many language developments which went before it.  I pull out some of these which are of particular note i...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/latex.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/css/print.css" media="print"> -->
+
+  <link rel="canonical" href="/posts/2018/12/29/things-of-note-pt1.html">
+
+  <link rel="alternate" type="application/rss+xml" title="Grokking Golang" href="/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+	
+		<h1 class="header-title"><a href="/">Grokking Golang</a></h1>
+		
+			<h2 class="header-subtitle">Or, Travels in Go-Land</h2>
+		
+	
+
+    <nav class="group">
+	
+	
+		
+		    
+		      <a href="/404"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">About</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/blog/">Posts</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/page/">Tufte CSS</a>
+		    
+	    
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Things of Note - Part 1</h1>
+<p class="subtitle">December 29, 2018</p>
+
+<h2 id="high-level">High-Level</h2>
+<p>As a newer language, Golang benefits from many language developments which went before it.  I pull out some of these which are of particular note in separate sections below, but the “just plain handy” list includes: a package system, first-class functions, lexical scope, a system-call interface, and immutable strings (from The Go Programming Language, pp xiv by Donovan, A. and Kernighan, B.).  It also includes in the platform linting, dependency management, testing, packaging and more.</p>
+
+<h2 id="presumes-monorepo-style-scm">Presumes monorepo-style SCM</h2>
+<h2 id="optimised-for-large-teams">Optimised for large teams</h2>
+
+<h2 id="managed-runtime">Managed runtime</h2>
+<p>Golang takes note of the development in managed runtimes which found popularity with the development of languages such as Java and C# (and their many JRE- and CLR- platform cousins).  Golang also has a managed runtime.  That means you get garbage collection which is a major boon.  The downside is that it’s not suitable for real-time projects (although I remember real-time Java so I’m not sure these kind of things are impossible; rather they are likely to require a different style of coding.)</p>
+
+<h2 id="cross-platform">Cross-platform</h2>
+<p>The Golang platform is available on many platforms (Unix, MacOs, and Windows) and chip architectures (including ARM). This goes a long way towards ensuring that your code is very likely to be compilable on multiple platforms unchanged.</p>
+
+<h2 id="time-to-compile">Time-to-Compile</h2>
+<p>Golang is a compiled language.  But not only that, the designers have focussed on keeping compile-time as low as possible.  If you’re coming from a Scala background, that’s reassuring.</p>
+
+<h2 id="bundling-dependencies">Bundling dependencies</h2>
+
+<h2 id="network-centric">Network-Centric</h2>
+<p>Golang “takes note of the importance of locality” (from The Go Programming Language, pp xiv by Donovan, A. and Kernighan, B.) but also has first-class concepts for remote communication.</p>
+
+<h2 id="not-object-oriented">NOT Object-Oriented</h2>
+
+
+
+    </article>
+    <span class="print-footer">Things of Note - Part 1 - December 29, 2018 - Andrew Harmel-Law</span>
+    <footer>
+  <hr class="slender">
+<div class="credits">
+<span>&copy; 2019 
+  
+		<a href="mailto:andrew [at] harmel-law [dot] com">Andrew Harmel-Law</a></span></br> <br>    
+    
+
+<span>Created with <a href="//jekyllrb.com">Jekyll</a> and the theme <a href="//github.com/sdruskat/tufte-css-jekyll">tufte-css-jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>
